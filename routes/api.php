@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // API baru untuk InputData
-Route::get('/input-data', [InputDataController::class, 'index']); // Mendapatkan semua data
+Route::get('/input-data', [InputDataController::class, 'index']); // Mendapatkan semua data dengan filter fleksibel
 Route::get('/input-data/bidang/{bidang}', [InputDataController::class, 'filterByBidang']); // Filter berdasarkan bidang
 Route::get('/input-data/tahun/{tahun}', [InputDataController::class, 'filterByYear']); // Filter berdasarkan tahun

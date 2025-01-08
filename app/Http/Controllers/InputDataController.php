@@ -8,10 +8,36 @@ use Illuminate\Http\Request;
 class InputDataController extends Controller
 {
     // Fungsi untuk mendapatkan semua data input
-    public function index()
+    public function index(Request $request)
     {
-        $data = InputData::all(); // Mengambil semua data dari tabel input_data
-        return response()->json($data); // Mengembalikan data dalam format JSON
+        // Mulai query dengan model InputData
+        $query = InputData::query();
+
+        // Filter bidang jika ada
+        if ($request->has('bidang') && $request->bidang !== '') {
+            $query->where('bidang', $request->bidang);
+        }
+
+        // Filter kategori jika ada
+        if ($request->has('kategori') && $request->kategori !== '') {
+            $query->where('kategori', $request->kategori);
+        }
+
+        // Filter tahun jika ada
+        if ($request->has('tahun') && $request->tahun !== '') {
+            $query->where('tahun', $request->tahun);
+        }
+
+        // Pencarian umum (search)
+        if ($request->has('search') && $request->search !== '') {
+            $query->where('nama_perusahaan', 'like', '%' . $request->search . '%');
+        }
+
+        // Eksekusi query dan ambil hasil
+        $data = $query->get();
+
+        // Kembalikan hasil dalam format JSON
+        return response()->json($data);
     }
 
     // Fungsi untuk mendapatkan data berdasarkan bidang tertentu
